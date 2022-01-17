@@ -1,0 +1,1084 @@
+%% rpg-module.tex
+%
+% Documentation and worked example for the Role-Playing Game Module class
+%
+% Copyright 2016 Michael C. Davis
+%
+% LICENSE FOR THE WORK
+%
+% This work consists of the following files:
+%    rpg-module.cls
+%    basic-stats.sty
+%    basic-stats.def
+%    doc/rpg-module.tex
+%
+% This work may be distributed and/or modified under the conditions of the LaTeX
+% Project Public License, either version 1.3 of this license or (at your option)
+% any later version. The latest version of this license can be found at:
+% http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX version
+% 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `author-maintained'.
+% 
+% The Author and Maintainer of this work is Michael C. Davis
+%
+%
+% OPEN GAME LICENSE
+%
+% The monster stats in this file are copyright 2000, Wizards of the Coast, Inc.
+% and are distributed with permission under the terms of the Open Game License v 1.0.
+% See the file rpg-module.cls or the compiled documentation file rpg-module.pdf for
+% the full text of the license.
+%
+%
+% LICENSE FOR COMPILED WORKS
+%
+% You may distribute compiled works generated using the work as specified in
+% Clause 3 of the LaTeX Project Public License. If you incorporate Open Gaming
+% Content into the compiled work, you must also comply with the terms of that
+% license.
+%
+%
+% USAGE
+%
+% In addition to this documentation, there are a number of worked examples in the
+% examples/ directory.
+%
+% Technical support is provided on Dragonsfoot Forums:
+%
+% http://www.dragonsfoot.org/forums/viewtopic.php?f=87&t=73823
+
+%% Start here!
+%
+% Load the rpg-module class. The following options are available:
+%
+% a4paper         Use A4 paper size (default)
+% letterpaper     Use US letter paper size
+% sansserif       Use URW Gothic font (similar to ITC Avant Garde Gothic) (default)
+% serif           Use ITC Souvenir if available, fall back to URW Bookman if not available
+% acdesc          Use descending AC in stat blocks
+% acasc           Use ascending AC in stat blocks
+% acb1            Use B1-style AC in stat blocks (inspired by http://zenopusarchives.blogspot.com/2014/02/ascending-ac-in-holmes-basic.html)
+% acsw            Use Swords & Wizardry style AC in stat blocks
+% basic           Use Basic stat blocks (default)
+% advanced        Use Advanced stat blocks (not currently implemented, planned for a future release)
+%
+% In principle, stat blocks can be defined for any RPG system by defining the appropriate style file.
+% In this release of the class, only basic-stats.sty is defined.
+
+\documentclass[letterpaper,serif]{rpg-module}
+
+\usepackage{lipsum} 
+\newcolumntype{b}{X}
+\newcolumntype{s}{>{\hsize=.5\hsize}X}
+
+% This package generates filler text for
+                                                                                % the example file, not needed in a real project
+
+%\usepackage{parskip}                                                           % add spacing between paras instead of indents
+
+\begin{document}
+
+%% TITLE PAGE %%
+%
+% If you want a title page, define the elements you want, then use \maketitle (see below).
+%
+% It is required to define \title, even without a title page, as it is used for running heads for A4 paper size.
+
+\title{We Are the Lost}
+
+% The rest of the title page elements are optional
+
+\author{Gully A. Burns}
+
+\titlerunning{We are the Lost}                     % Shorter title for running heads (A4 paper option only)
+
+\subtitle{Reimagining Peter Pan's 'Lost Boys'}
+
+\coverimage{pics/tired_20-year-old_cat.jpg}
+
+\abstract{Imagine a group of ragtag lost children: ghosts of discarded souls, resurrected as shapeshifters, living amongst us, and hiding in plain sight. They seem to be  stray cats, urban birdlife, street vermin, and the everyday animals we share our lives with. These ``Lost Children'' exist in the interstitial spaces of humanity, amongst the disappeared and the dead. They seek retribution against their killers and their persecutors, railing against the dark crimes that fell upon them when they were still innocent and unknowing. But always, the lives of the Lost are driven by fear of their greatest enemies: the Shadows. These are monstrous, nightmarish creatures that hunt the Lost relentlessly. The setting is framed in a context of ancient secrets and being forced to live in a hidden world away from the eyes and ears of `normal' humanity.
+
+%		\vspace{6pt}
+}
+
+\copyrightblock{This work is formatted using the \LaTeX~rpg-module class is Copyright \copyright 2016 Michael Davis and is distributed under the terms
+of the \href{http://www.latex-project.org/lppl.txt}{LaTeX Project Public License} (LPPL) Version 1.3c. }
+
+% The contact block is to typeset your logo(s), company name and/or contact details. It consists of three columns; you
+% can use any or all of them. By default the columns are top-aligned and of equal width, but you can redefine this in the
+% optional argument. See the documentation of the LaTeX tabular environment for details.
+
+\contactblock[p{2.9cm} p{5.0cm} p{9.8cm}]{% column 1 : logo
+\begin{center}
+\includegraphics[width=1.5cm]{pics/ske_logo.jpg}
+\end{center}
+}{% column 2 : empty in this example
+}{% column 3 : contact details
+\vspace{0.4cm}
+\begin{flushright}
+The author can be contacted via email:
+\href{mailto:gullyburns@gmail.com}{gullyburns@gmail.com}.\\[0.5em]
+
+%Support for the rpg-module class and this template will be provided on the
+%\href{http://www.dragonsfoot.org/forums/viewtopic.php?f=87&t=73823}{Dragonsfoot Computer Gaming \& Utilities} forum.
+\end{flushright}
+}
+
+% Typeset the title page from the elements above. Remove \maketitle if you don't want a title page.
+
+\maketitle
+          
+\definecolor{lightgray}{gray}{0.9}
+%% START OF PAGE 1 %%
+%
+% Display the title text again at the top of the first column.
+% Or, use \showtitle[newtext] to use newtext in place of the previously-defined title.
+
+%\showtitle
+
+\part{Introduction}
+\label{introduction}
+
+\begin{quote}
+\emph{\textbf{Prayer of the Lost}\newline
+We are the lost.\newline
+Let us hide, never to be found. \newline
+Far from the eyes and ears of our enemies. \newline
+Far from the eyes of the world. \newline
+Let us be lost. \newline
+Let us not forget the fallen.\newline
+They did not fall in vain.\newline
+We will defeat our enemies!\newline
+Our secrecy is our strength.\newline
+Let us be lost.\newline
+Let us be lost.}
+\end{quote}
+
+In this game, player characters are 'The Lost' (modeled after the 'lost boys' of Peter Pan). These are children who died and had their souls transferred into animals by powerful, ancient superhumans. A by-product of this process is that the Lost develop powerful conscious control of their biology to be able to shapeshift between their target animal and their human form.  
+
+Similar to Marvel's X-Men, the story centers on around a clandestine group of talented children, striving to make their way through a world filled with threats and danger. Like Professor Xavier, there are powers at play that support the characters. Like Magneto, there are also powers that threaten them and put them in jeopardy. Each one of the Lost have each had to undergo an ordeal that is almost unimaginable to the rest of us, touching on the themes of childhood adventure and risk. 
+
+The structure of the game is driven by a form of biologically-inspired magic realism. Despite the clear fantasy elements of the story, we attempt to use and conform to as much of a realistic account of the physical world as possible. Mass energy is always conserved. Powers are expressed as conscious control of superfast biological processes. Seemingly magical powers of shapeshifters should always have relatively straightforward scientific explanations. This is intended to be a slightly different style of game universe than many other role-playing games. Here, we seek to build \emph{mythos} with an underpinning provided a deep consideration of modern biological science. The authors hope that this creates a new niche for storytelling in roleplaying games by doing so.  
+
+This document will provide rules for character generation, the powers and lifecycle of the lost children, an introduction to the world of the Lost as a setting, a set of influential non-player characters, and an introductory scenario for Destined to introduce  starting play. 
+
+\newpage
+
+\part{Game System}
+\label{system}
+
+\section{Basic Mechanics}
+
+A key distinction that the Lost have is an understanding of their own \emph{biomass}.	This is the basic core material they have to wield as a vehicle of their 
+transformative powers. The more biomass they carry, the more powerful they are. 
+They have the capability of carrying more biomass as very dense material within
+their bodies so that they may weigh much more than they seem to. In this world, 
+appearances can be deceptive as apparently small lost children may weigh more than very large creatures if they are experienced and powerful. 
+
+\section{Lifecycle}
+
+A key starting point for understanding the game is the lifecycle of lost children. As a human, the child grows, matures somewhat but dies before becoming an adult (usually before the age of 14/15). Within a short window of time after the child's death, their mind (memories, personality, and intelligence) is transferred into the body of another living animal. Over the course of roughly a year through a process of continual care, the animal literally becomes the child, growing as needed and undergoing a slow process of metamorphosis. The consciousness of the child emerges within the animal but they will be asleep the entire time. Typically, the child will experience continual vivid dreams of being the animal during that time - birds' flight, cats hunting, dogs running, etc. 
+
+\begin{itemize}
+    \item \textbf{Neonate (<1-2 years)}
+    Upon waking, the lost child will be a neonate - a newborn. She will possess only the power to spawn a single sentient copy of her core animal, the `swarm' defensive reflex, and the `rebirth' capability of surviving a mortal injury (see section XXX). She will require rigorous training and support to develop her powers to grow and become an active member of the Lost. Needless to say, this period of time is one of incredible physical and emotional vulnerability, with its own risks and pitfalls. 
+    \item \textbf{Recently Lost (3-10 years)} Following their initial training and acclimatization to their  to their new existence, they will then become the `recently lost'. Lost children with basic capabilities, who might act as apprentices to active members, but shouldering little responsibility of their own. This may be thought of largely a continuation of their original childhood, but in much altered, darker circumstances. They will have a mentor, and recently lost can sometimes fall foul to some of the rivalries between their sponsors. 
+    \item \textbf{The Lost (11-50 years)} After some time, they become fully fledged members of the Lost. This process is effectively an initiation rite involving a task befitting the transition into the ranks of the Lost Children as a group. These would most likely form the basis of most beginning characters in the game - and would be equivalent to street-level heroes in Destined. Beyond basic capabilities common to all lost children, the Lost would possess one set of powers that they themselves developed and learned with help from their mentor. 
+    \item \textbf{Journeyman Lost (50-200 years)} Lost Children are immortal unless they are killed. Playing well-established powerful characters usually involves them having lived a long time having built their powers and skills over long periods. The `Journeyman Lost' are powerful mid-level characters who are likely to have mastered the skills and capabilities of one career.  
+    \item \textbf{Elder (200-1000)} After 200 years of existence as a Lost Child, characters become far more powerful and usually more withdrawn from the world and interests of humanity. Some spend their entire time in a transformed state. Others may form and typically spend less time engaged with humankind. Elders sometimes start their own communities of Lost if they feel as though they are seeking company. Elders serve as powerful adversaries, and Elder shadows are truly terrifying bestial monsters. 
+    \item \textbf{Ancient (1000+)} True ancients are very rare and frequently possess terrifying inhuman power. They usually seek to remain completely hidden from sight and rarely participate in worldly matters. When they do, there are often opportunities to link them with famous characters and stories from myth. When they lead communities, those communities tend to thrive and succeed - until the shadows come. 
+\end{itemize}
+
+\textbf{A Note about `Shadows'}\newline
+The reason the Lost are forced to hide from society is that they are hunted by the Shadows. The initial and any subsequent rebirths of a Lost Child are incredibly traumatizing and involve a form of unleashing of raw biologically-driven power that requires the concentrated attention of an Elder to guide the process so that the child can survive. If that attention is not provided, the neonate Lost Child will revert into madness, chaos, and `shadow'. Moreover, if any sentient copy of a Lost Child is separated from their `host' for long enough, they will themselves undergo the process of rebirth into a separate Lost Child. If this is done without support from a Lost Elder, the sentient copy will likely become a shadow.  
+
+Shadows are the Losts' nemesis. They possess the same powers but without their control and integration into humanity. They typically remember where (or who) they came from and carry a deep sense of abandonment, resentment, hatred even towards the Lost that they came from.    
+
+\section{Character Generation}
+
+\begin{quote}
+\emph{``Shadows begin their game\newline
+These faces with no names\newline
+Whisper words in tongues\newline
+Make your ears ring\newline
+The monsters circle 'round\newline
+Eyes upon you \newline
+Raise your head\newline
+And let them hear your heart's choice\newline
+You are the king of the lost boys''}\newline
+\newline
+King of the Lost Boys \newline
+Sarah Bareilles. 
+\end{quote}
+
+\subsection{`Careers'}
+
+\begin{itemize}
+    \item \textbf{Warrior} characters fully leverage their powers in service of combat. They fully utilize their shapeshifting powers to heal injuries, improve their natural weapons, develop handheld weapons as extensions of their own bodies, and possibly use limited offensive biomagic to consume the bodies of their enemies. Warriors are hard to kill, fearsome to watch, and deadly to fight against.  
+    \begin{itemize}
+        \item \emph{Standard Skills}: Athletics, Brawn, Endurance, Evade, Unarmed; Combat Style (Any)
+        \item \emph{Professional Skills}: Craft (Weapons), Engineering, Gambling, Lore (Military History), Lore (Strategy and Tactics), Oratory, Survival
+        \item \emph{Typical Powers}: Transform (Natural Weapons, Were-form); Internal Biomagic (Speciality); Manipulate Materials (Weapons, Armor); Evolve (Alpha Predator); Accrete Biomass; Consume Biomass
+    \end{itemize}
+    \item \textbf{Assassin} characters combine deceptive aspects of shape-shifting with capabilities of killing to eliminate targets without detection. They use subtlety and subterfuge to wreak havoc on their enemies. Some specialized external biomagic can also provide more powerful assassin characters creative ways to interact with their targets - such as keeping them alive under duress or making deaths seem like natural causes, etc.
+    \begin{itemize}
+        \item \emph{Standard Skills}: Conceal, Deceit, Evade, Insight, Perception, Stealth; Combat Style (Concealable Weapons Style)
+        \item \emph{Professional Skills}: Disguise, Grok, Shift, Sleight, Streetwise, Survival, Track
+        \item \emph{Typical Powers}: Mimicry; Internal Biomagic (Speciality); Transform (Nightmare Wereform Hybrid); External Biomagic(Speciality); Accrete Biomass; Consume Biomass
+    \end{itemize}
+    \item \textbf{Scout} characters specialize for stealth, mobility, accessibility to silently observe and gain information. The Lost can penetrate most spaces as mice, birds, \emph{etc.} and rarely attract attention. Urban wildlife is everywhere but most people pay little attention to it as long as it does not directly interact with them (i.e., there are no mice or birds inside offices or houses). 
+    \begin{itemize}
+        \item \emph{Standard Skills}: Athletics, Endurance, First Aid, Perception, Stealth, Swim; Combat Style (Specific Hunting or Cultural Style)
+        \item \emph{Professional Skills}: Culture (any), Computing, Language (any), Lore (any), Navigation, Survival, Track
+        \item \emph{Typical Powers}: Mimicry; Internal Biomagic (Speciality); Animal Skills; Evolve (Genus)
+    \end{itemize}
+    \item \textbf{Detective} characters combine information gathering capabilities with other investigative capabilities to learn people's secrets and discover the truth. Shapeshifters are natural impersonators and these characters excel at deception and subterfuge to learn whatever they need to know. Detectives tend to be 
+    \begin{itemize}
+        \item \emph{Standard Skills}: Customs, Deceit, Influence, Insight, Locale, Perception, Willpower
+        \item \emph{Professional Skills}: Acting, Bureaucracy, Disguise, Lockpicking, Mechanisms, Sleight, Streetwise 
+        \item \emph{Typical Powers}: Mimicry; Internal Biomagic (Speciality); Animal Skills, External Biomagic (Mind control and influence powers); 
+    \end{itemize}
+    \item \textbf{Animage} characters dive into their abilities to switch species and underlying animal types. They tend to be very physically gifted, and focus on the use of animal powers either by transforming into animal forms or generating multiple versions of themselves through spawn.   
+    \begin{itemize}
+        \item \emph{Standard Skills}:  Athletics, Endurance, First Aid, Perception, Stealth, Swim; Combat Style (Cultural Style)
+        \item \emph{Professional Skills}: Acrobatics, Meditation, Survival, Track 
+        \item \emph{Typical Powers}: Animal Skills; Transform; Internal Biomagic (Speciality); Evolve (Class); 
+    \end{itemize}
+    \item \textbf{Biomage} characters tend to specialize into some aspect of manipulating others' biology. These characters are healers, mind-controllers, bioweapons experts, seducers, etc. There is quite a lot of scope for creativity with the Losts' biologically-oriented powers. Biomage characters could be played a great number of ways and some powers could unbalance the game. It would be quite easy to tap into some very dark themes with a horror-oriented tone, so some degree of caution may be called for depending on the kind of game being played. Having said that, Biomages are likely to make the game enormously more interesting. Proceed with Caution. 
+    \begin{itemize}
+        \item \emph{Standard Skills}: Customs, First Aid, Perception, Willpower
+        \item \emph{Professional Skills}: Art, Craft, Engineering, Healing, Literacy (Study), Lore (Biomedicine), Grok, Shift
+        \item \emph{Typical Powers}: Internal Biomagic (any); External Biomagic (any) 
+    \end{itemize}
+    
+\end{itemize}
+
+\subsection{Animals}
+
+\begin{itemize}
+    \item \textbf{Felines (Domestic Cat, Bobcat, Panther, Lion, Tiger)}
+    \item \textbf{Small Birds (Sparrows, Robins, Swifts, Hummingbirds)}
+    \item \textbf{Corvid (Crows, Ravens, Rooks)}
+    \item \textbf{Raptors (Kestrels, Hawks, Buzzards, Eagles)}
+    \item \textbf{Canines (Dog, Wolf, Coyote, Direwolf)}
+    \item \textbf{Squirrels}
+    \item \textbf{Rodents (Mice, Rats, Hamsters, Porcupines)}
+    \item \textbf{Hedgehogs}
+    \item \textbf{Bats}
+    \item \textbf{Reptiles (Snakes, Lizards)}
+    \item \textbf{Amphibians (Frog, Toad)}
+    \item \textbf{Spiders} (see `Giant Spider', CRB pp. 267)
+    \item \textbf{Insects} (see `Insect Swarm', CRB pp. 251)
+\end{itemize}
+
+Recall notes about swarms in Mythras
+
+\section{Powers of the Lost}
+
+\subsection{Core Powers}
+
+The Lost are superheroes, capable of conscious control of their own (and sometimes of others') biology.  Within Mythras's Destined System, the Lost have access to the following core powers. The manifestation of each power depends on their original host animal and on their age / lifecycle stage. The core powers are provided with many boosts and specializations available as they become older and more experienced.
+
+\begin{itemize}
+    \item \textbf{Shapechange}: changing to and from whole animals.
+    \item \textbf{Shapeshift}: altering their own human form. 
+    \item \textbf{Biomagic}: Conscious control over biological tissue.
+\end{itemize}
+
+%\begin{itemize}
+%   \item \textbf{Shift (POW+CON)} - This skill reflects a Lost Child's basic ability to control biological processes (their own or other people's). This forms their basic ability to shapeshift back and forth between human and their base animal, but also influences their ability to harness their abilities in a more focused way. 
+%   \item \textbf{Grok (INT+POW)} - A form of perception that permits the Lost Child to deeply understand biological processes acting in their own bodies (or others' bodies). The degree of difficulty is based on the intimacy of the contact (sight/odor, external touch,  internal touch via an incision or mucus membrane, full integration). It is a form of diagnostic bioassay, executed by the Lost Child's enhanced perceptions and abiliies.   
+%\end{itemize}
+
+%They then may apply these skills to the following sets of powers, acquired over the course of a Lost's lifeetime.  
+
+\subsection{Core Power - Shapechange }
+
+This core power involves changing part of one's overall biomass into sentient copies of the individual in animal form.
+
+\begin{enumerate}
+    \item \textbf{Generate a single sentient copy} \textit{[basic]} The ability to create sentient copies of their base animal. This is the basis of Lost Children's shapeshifting ability. Essentially, the Lost will convert some of their biomass into an individual copy of their base animal. The animal copy is a sentient copy of the Lost Child, possessing the same memories, personality, intelligence, etc. (depending somewhat on the discretion of the GM). The Lost Child will fall asleep when the animal is spawned, awakening only if the animal copy dies or is reunited with the child. 
+    
+    \textit{Note} - if a sentient copy is separated from their source for too long, that sentient copy becomes detached and can become a Shadow. The process of detachment is very similar to the way that grafts and transplants run the risk of being rejected by a host's immune system.
+    \item \textbf{Generate a Sentient Copy and Remain Conscious} \textit{[standard]} At the next stage of sophistication, the Lost can stay awake while the sentient copy is generated and active. Mind-meld-like communication can be accomplished between the sentient copy and the lost via a touch. 
+    \item \textbf{Generate Multiple Sentient Copies} \textit{[advanced]} At the next level, the Lost can generate multiple copies (but must retain sufficient biomass to support their basic human form). Mind-meld-like communication can be accomplished between any sentient copies and the Lost via a touch. 
+\end{enumerate}
+
+\subsubsection{Boost - Swarm}
+\begin{enumerate}
+    \item \textbf{Panic survival swarm} \textit{[basic]}
+As a last-ditch, involuntary panic mechanism that serves as a basic survival reflex, when confronted with an existential threat the Lost fully decompose their bodies into multiple copies of their base animal. As a reflex, this is a dangerous, uncontrolled action and is usually only triggered under the most severe circumstances. 
+    \item \textbf{Conscious Swarm} \textit{[advanced]}
+The Lost may convert their entire biomass into multiple copies of their base animal - much like Swarm I, but this collection of animals is conscious, mobile and may reform into the Lost's human form at any time. Transitions to and from the swarm take an entire round.
+\end{enumerate}
+
+\subsubsection{Boost - Survive}
+
+\begin{quote}
+    \textbf{Be Reborn} \textit{[basic]} When suffering a major wound that would usually result in death, the Lost Child will instinctively generate a sentient copy of themselves as a neonate animal of SIZ 1 - a newborn kitten, puppy, or hatchling. This reflex can save the Lost Child's life but leave them utterly vulnerable to permanent extinction subsequently if threats persist. 
+\end{quote}
+
+\subsubsection{Boost - Evolve}
+\begin{enumerate}
+    \item \textbf{Within Genus} \textit{[standard]}
+At the start, each Lost Child can only transform into a simple form of their base animal without any deviation from its original form. In this form, the Lost may transform to any animal species within a given Genus. Thus, a Lost child whose original animal is a dog, may also transform into any member of the family \textit{Canis}, including wolves. Each target species must be researched by the Lost directly grokking that animal's biology as an extended research project.
+    \item \textbf{Within Taxonomic Family} \textit{[advanced]}
+Similarly to Evolve I, at this level the Lost may transform into any member of their base animal's Taxonomic family. Thus, a Lost whose base animal is a domestic cat may now transform into a full-blown Tiger. The Lost must research each species to be transferred into by grokking the biology of that species as an extended research task. 
+\item \textbf{Infinite $\infty$ transformation} \textit{[ultimate]}
+Ancients may transform into creatures that have never themselves existed - this includes monsters like Dragons, Griffins, Two-Headed Giants, Living Sentient Cacti etc.
+\end{enumerate}
+
+\subsection{Shapeshift}
+
+This core power involves changing one's human form into some hybrid / alteration.
+
+\begin{enumerate}
+    \item \textbf{Transform Appearance} The Lost can transform part or all of their human form into a human-like form of their base animal. Lost Children who have Cats as their base animal can grow claws or change their eyes to those of cats to acquire night vision. Typically, at the early stages, these powers are primarily superficial and have no tactical value, but as the Lost progress, these elements become more useful. 
+    
+    \item \textbf{Transform Skin} 
+	\item \textbf{Transform Senses}
+	\item \textbf{Transform Limbs (Legs, Wings, etc)}
+	\item \textbf{Transform Head}
+	\item \textbf{Wereform Hybrid}
+\end{enumerate}
+
+\subsubsection{Boost - Mimic}
+The Lost can change their appearance to look like other people. Their ability to do this well is strongly dependent on their ability to fully understand their target through use of their \textit{Perception} skill and then \textit{Acting / Disguise} skills to determine the closeness of how well the Lost can pull off the imitation. 
+
+\subsubsection{Boost - Animal Skills}
+
+\begin{quote}
+Every base animal has a different set of capabilities that are naturally available to Lost Children. Cats are agile and perceptive. Dogs have a heightened sense of smell. Mice are skillful at hiding. Mongoose are fierce fighters. Squirrels are amazing climbers. The Lost develop superhuman skills consistent with their base animal. 
+\end{quote}
+
+\subsubsection{Boost - Manipulate Materials} 
+
+Early on, the Lost cannot transform non-living things such as their clothes. This means that neonates usually end up naked when they transform back to their human form. 
+
+\begin{enumerate}
+    \item \textbf{Clothes} \textit{[standard]} An early power that the Lost frequently develop for themselves is to incorporate natural biodegradable fibers into their bodies permitting them to 'carry their clothes with them' when they transform into their animal form.  
+    \item \textbf{Weapons / Armor} \textit{[advanced]} At more advanced levels, the Lost can generate natural weapons and armor. This can extended to include other natural living or biodegradable material such as shells, carapace, wood, bone, teeth, horns, or antlers. This is particularly useful when Lost are fighting each other or the Shadows since a piercing or cutting weapon provides direct contact with an opponent's internal tissue. Once that contact is made, it becomes much easier to apply either External Biomagic or Consume Biomass to a target.
+\end{enumerate}
+
+\subsubsection{Boost - Grow}
+\begin{quote}
+   \textbf{Accrete and Utilize Biomass} \textit{[advanced]}
+For the Lost, to some degree biomass determines power. Within the game, this takes on the form of a kind of `Enhance SIZ' as the Lost age gaining mass but not necessarily gaining volume. Thus, powerful Lost may weigh far more than they appear.
+\end{quote}
+
+\subsection{Core Power: Biomagic }
+
+The basic power of the Lost is conscious control of their own biology. This means that they can shut off pain, heal themselves of injuries and wounds, and even shape their physical bodies. They can look however they want to look. They can imbue their bodies themselves with great strength, endurance, agility and power at the upper limits of natural human performance. By virtue of this power, Lost Children do not age (unless they want to). 
+
+This power provides various specializations as listed and depends on the use of the Lost's internalized perception, endurance, and willpower. 
+
+    \begin{itemize}
+	    \item Anaesthesia - alleviate and block pain
+	    \item Healing - cure any pathology from acute trauma to cancer or infectious disease
+    	\item Identify and counter toxins
+	    \item Create and secrete bioweapons
+	    \item Counter external biomagic (see below)
+	    \item Alter Physical Attributes (STR, CON, DEX)
+    \end{itemize}
+
+\subsubsection{Boost - Control others' biology} 
+
+\begin{quote}
+At more advanced stages, the Lost can hijack and manipulate others' biology and even other Lost's biological powers. 
+	Such situations are the most potentially dangerous and deadly for the Lost. 
+	This is why the Shadows are such terrifying enemies. 
+	These powers require specialization to subtypes in order to limit their potential impact. Some are horrifying and potentially devastating. Normal humans can resist the effects of these powers through a contested roll against Endurance or Willpower. Lost counter with their own Shift ability, augmented by their Endurance or Willpower.  
+\end{quote}
+
+    \begin{itemize}
+	\item Basic External Biomagic
+	\begin{itemize}
+    	\item Anaesthesia - alleviate and block pain
+	    \item Healing
+	\end{itemize}
+	\item Neurological Control
+	\begin{itemize}
+    	\item General Anaesthesia - Cause Unconsciousness
+	    \item Cause Sleep
+	    \item Paralyze
+	    \item Cause Seizures
+	    \item Cause Emotion 
+	    \item Cause Amnesia
+	    \item Brain death
+	    \item Muscular Control
+	    \item Cause Hallucinations
+	    \item Falsify Memories
+	    \item Distort Reasoning
+	\end{itemize}
+	\item Organ Control
+	\begin{itemize}
+	    \item Disable Organ
+	    \item Control Organ
+	\end{itemize}
+	\item Cellular Control 
+	\begin{itemize}
+	    \item Control Cell Types 
+	    \item Cause / Cure Cancer
+	    \item Lesion / Grow Specific Cell Classes 
+	    \item Lyse Cells (Liquefy Tissue)
+	\end{itemize}
+    \item Genetic Control 
+	\begin{itemize}
+	    \item Read Genetic Signature / Heritage
+	    \item Alter Genetic Disease
+	    \item Gene Enhancement / Create Mutants
+	\end{itemize}
+	\end{itemize}
+
+\subsubsection{Boost - Consume (Acquire Biomass from other Lost)} 
+
+\begin{quote}
+Very powerful Lost Children are very, very difficult to kill. Thus, combat between these creatures takes on the form of a battle for each other's biomass. With the use of this power, the Lost can literally consume the biomass of another, absorbing their substance and their power. The use of this power is considered `dark' by most of the Lost, but in a final battle for survival, it can be the tableau upon which even the most powerful Lost can be defeated and killed. This power is used predominantly by and against the Shadows in the Lost Children's ultimate fight for survival.  
+\end{quote}
+
+\subsubsection{Boost - Create Lost}
+\begin{quote}
+Elders may create new Lost Children (and should never be permitted for Player Characters). 
+\end{quote}
+
+\newpage
+
+\part{Setting}
+\label{setting}
+
+\section{The World}
+
+Within the game setting of Destined in Gemelos city, there is a small ranch high up in the canyons above Bonita Beach where a cohort of Lost Children live. The group is lead by Sarah, an ancient originating from Roman Britain, who takes care of the children, training them, supporting them. She is the leader and matriarch of the group - is fiercely protective of her kids and a very dangerous enemy to have. The Lost largely keep themselves to themselves except when they hear of criminals or bad guys exploiting children in which case, some of the more powerful members of the cohort will investigate and intervene. 
+
+Occasionally, a powerful group of Lost will visit Sarah, led by the mysterious Morgan. He is the self-appointed leader of the Knights of the Lost and leads his group of warriors and agents around the world, seeking out the Shadows, and taking the fight to them. 
+
+\section{The Lost}
+\label{npcs}
+
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Chaos Hybrid}}
+\end{tabularx}
+\rowcolors{1}{}{lightgray}
+\begin{tabularx}{\linewidth}{XXX}
+STR: 2d6+6(13) & Action Points & 2 \\
+CON: 1d6+12(16) & Damage Modifer & +1d2 \\
+SIZ: 2d6+6(13) & Magic Points & 11 \\
+DEX: 3d6(11) & Movement & 8m \\
+INT: 3d6(11) & Initiative Bonus & 11 \\
+POW: 3d6(11) & Armor & Tough Hide \\
+CHA: 2d6(7) & Abilities & Chaos Tainted, Disease Immunity \\
+    & Magic & Folk Magic 48\%; Specialists have either devotion 58\% \& Exhort 58\% or Binding 58\% \& Trance 57\%
+\end{tabularx}
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-3 & Right Leg & 1/7 \\
+4-6 & Left Leg & 1/7 \\
+7-9 & Abdomen & 1/8 \\
+10-12 & Chest & 1/9 \\
+13-15 & Right Arm & 1/6 \\
+16-18 & Left Arm & 1/6 \\
+19-20 & Head & 1/7 
+\end{tabularx}
+\rowcolors{1}{}{}
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Skills}} \\
+Athletics 44\%, Brawn 46\%, Endurance 62\%, Evade 42\%, Locale 52\%, Perception 62\%, Survival 67\%, Unarmed 54\%, Willpower 52\%\\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Passions}} \\
+Love Chaos 88\%, Hate Everyone 80\% \\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Combat Styles \& Weapons}} \\
+Hybrid Ravager (Spear, Club, Shield) 64\%
+\end{tabularx}
+\rowcolors{1}{lightgray}{}
+\begin{tabularx}{\linewidth}{XXXXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Weapon}} & \textcolor{white}{\textbf{Size/Force}} & \textcolor{white}{\textbf{Reach}} & \textcolor{white}{\textbf{Damage}} & \textcolor{white}{\textbf{AP/HP}} \\
+Club & M & S & 1d6+1d2 & 4/4
+\end{tabularx}
+
+\section{Human Adversaries}
+\label{npcs_humans}
+
+\section{Shadows}
+\label{npcs_shadows}
+
+\pagebreak
+
+\part{Cats Make Good Company}
+\label{cmgc}
+
+\section{A Street-Level Adventure for `Destined'} 
+\label{scenario ideas}
+
+This is designed as an introduction for conventional Destined superheros to encounter and learn about the Lost, their powers, stories, and their hidden existence. The adventure centers on a strange, lonely, super-powered child being experimented on by researchers working for Neohominis, a wealthy, well-lawyered pharmaceutical company. 
+
+The company's CEO, Archie Saks-Lackerby, is a driven entrepreneur who's mission in life is to unlock the secrets of the Godstrand for himself. One of his more talented researchers has found, through pure chance, a stray sentient copy of one of the Lost Children. The Neohominis researchers were desperately trying to isolate and understand what they have managed to lay their hands on: a laboratory cat that inexplicably showed incredible resilience to physiological trauma. It caught the attention of the company's head of research (Dr. Josephine Delphi) who was shocked to find that the cat, over time, grew and transformed into a human girl. At present, this child and her powers forms the central thread of Neohominis' Godstrand research program, but also threatens the entire existence of all Lost Children across the world. 
+
+Within Neohominis, the child is known as \emph{Subject 101}; among the lost, she is Emily - a cat scout who they thought had been killed in a explosion five years ago. 
+
+The Lost have sent a senior assassin, Edgar, to find her, exact retribution, and bring her back. He became Lost during the US Civil War and is very capable, quite powerful, ruthless where the secrecy of the Lost is concerned but a good person nonetheless. He may collaborate with the characters depending on how they conduct their investigations. He most frequently takes the form of a black cat.
+
+\section{Scenes}
+
+\subsection{Surf's up - we should be at the beach}
+
+Tragedy strikes in Gemelos City's famous Bonita Beach community as the body of Bradley Davisson, a local athlete and leader within the free-diving community, is found on the beach. He seems to have drowned but something doesn't quite add up. His body was found in his car, far away from the waterline - up on the beach near the cliffs. He must have drowned in the water, so how did he get there? Who moved his body?
+
+His friends think that the fact that he had been getting heavily into a new performance-enhancing street drug called 'Grok' could be something to do with it. Since starting to take the drug, he had started to develop a strange fascination around what it might be like to drown. Grok is a new street drug that hit the streets about three months ago. It gives the taker a powerful hallucinogenic experience of what's going on in their own bodies. It also permits the drug's taker to influence their own biology through a conscious act of will - and in the wrong hands, such an activity is proving to be deadly. This is actually what happened to Bradley: Grok enabled him to drown himself even though he was nowhere near the water.  
+
+The first scene will involve the characters investigating Bradley's death as suspicious and may involve them doing some initial investigative work within the Bonita Beach community to find out what happened. As part of their initial investigation, the players may explore police, journalism, or street contacts to find out more about what's going on with this new drug. 
+
+\subsection{ Back to the 'Burbs - Drug dealing in the Gemelos City Heartland}
+
+The Eastern outskirts of Gemelos City are standard Californian suburbs (think of the movie 'Brick', or the TV series 'Breaking Bad') - with a fairly tight knit group of local white-collar drug dealers distributing through schools, malls and other utterly mundane bastions of American family life. Some simple contact tracing can nail down where Bradley scored his Grok: Terry Romanski, an old friend who works as an assistant football coach at a local school. Terry's a little scared after finding out what happened to Brad and will give up his dealer if asked under pressure. 
+
+The man in question is Roman Davis, a high-school drop out who fancies himself as a gangster and runs a distribution network of fairly standard drugs throughout the region. Grok is as top-of-the-line as it comes and only the most wealthy can afford it. Roman sees it as his ticket to the big-time and will kill to keep it flowing. 
+
+Notably, Roman is on friendly terms with the `Gem 88' white supremacist biker gang, who are active in the heartland. The 88's provide heavy-duty muscle for Roman's business and receive payment in drugs and money. Senior members of the gang's leadership has been enjoying some of the more obvious effects of Grok and are themselves trying to figure out how to make money from this new development.    
+
+This is where the players may first encounter Edgar. He is currently investigating Roman to try to learn where he gets his supply. Edgar knows that Grok must have a Lost Child as it's source, and is desperate to rescue them. At this time, Edgar will keep a low profile and will attempt to learn more about the players as either adversaries, pawns to play to further his own ends, or allies who he would work with to rescue Emily. How discreetly and subtly the players handle their detective work will determine Edgar's approach.  
+
+The key information that unlocks the whole adventure is where the Grok is coming from. Roman will try to keep this a secret but he's usually kept somewhat in the dark about the supply. He works with a different contact every time and they call him with details of each deal and exchange. Roman doesn't like this arrangement but he understands that he has sole distribution rights for Grok in the suburbs and he does not want to mess that up. The players should understand early on that a heavy handed approach will fail - if they try to strong-arm the information out of Roman, he'll fight tooth-and-nail to survive and the trail will go cold. This part of the game will depend on the players' surveillance and infiltration abilities. 
+
+They will need to use some stealthy investigative tactics to find Roman's supplier. This could involve trailing him, tracking his calls, hacking his phone records, or breaking into his apartment. The players should exercise their full range of investigative skills here. The GM should make it clear that any premature show of force is likely to backfire. Roman loves the idea of being a tough guy and would like nothing better than to confront a group of conspicuous superheroes with automatic gunfire. He won't likely submit to torture and would likely rather die than be seen as weak. 
+
+There are many potential ways that this part of the adventure could go depending largely on how subtle and effective they are with their investigations. Luckily, Edgar will likely have picked up on the players' interest and involvement in the case and will intervene if they look as though they are going to do something that could spook the suppliers. This could help the GM guide the players. Broadly, Edgar's involvement will follow one of three likely paths. 
+
+\begin{itemize}
+	\item \textbf{Heavy Handed Approaches Involving Violence and Intimidation.} If Edgar thinks that the players are dangerous, he'll likely try to redirect and confuse them to throw them off the scent entirely. In this version of the game, the black cat is messing with them. It is entirely possible that the game could develop into conflict between the players and the Lost Children. 
+    \item \textbf{Intelligent Approaches but Ineffective.} Edgar will provide support as a cat. This could be guidance in the right direction or alerting them when something bad is about to go down. In this scenario, the players should feel that the strange black cat is helping them (and that random strangers seem to keep on showing up at \emph{exactly} the right time).
+    \item \textbf{A Subtle Strategy with Results.} If Edgar is impressed with the characters, he will reveal himself as an interested stakeholder without revealing anything about the existence of the Lost. He may pose as a federal agent or as a private investigator hired to investigate Bradley's death. Shifting shape to appear as an adult with all the appropriate physical props.
+\end{itemize}
+
+\subsection{ The Talented Dr. Delphi }
+
+The supplier is Dr. Josephine Delphi, a senior researcher at Neohominis and a dangerous power-hungry sociopath. She is playing both sides of the game for her own profit. She is keeping the Saks-Lackerby clan members (Archie foremost amongst them) excited about the possibility of giving them superpowers, supplying Grok to the street, and using Subject 101's cutting edge research to give herself limited \textbf{Mimic} shape-shifting powers that she uses to modify her appearance. She is using this new-found ability to impersonate people to run her newly-formed drug distribution network and is using it to cement her influence within the cut-throat Big-Pharma environment of Neohominis.  
+
+Depending on how the players approach the situation, they may encounter Dr. Josephine Delphi in disguise as an incognito drug supplier. They may be able to present themselves as rivals to Roman willing to outbid him, or they could trick Roman to contacting her and then attempt to capture them both. The GM should encourage the players to be creative in setting up a trap to ensnare the supplier. 
+
+Naturally, Dr. Delphi will use her newfound grok-based powers to try to escape - which will likely be futile if Edgar is present. She may attempt to fight, but is more likely to try to trick the players into breaking into the top-secret research facility where she will attempt to spring a trap of her own. 
+
+\subsection{ Attacking Neohominis }
+
+Josephine will attempt to lure the players into the military wing of the research facility where Neohominis has been experimenting on developing super-soldiers based on Emily's DNA. The work has had partial success, with some research subjects gaining superhuman physical attributes (but others undergoing horrifying changes in their physiology and been driven insane). Among the success stories are a squad of 5 super soldiers with enhanced physical abilities combat who Josephine has made sure are loyal to her. There are also two horrifying monsters created by this work that she has insisted to keep under lock and key for future observation (and potential use as killing machines if such a need should ever arise).   
+
+Note that if Josephine meets Edgar, she will realize exactly who and what he is and attempt to use that to undermine him with the PCs. She will attempt to use every advantage to sow discord and lies amongst the players generally. Edgar will, if given a chance, kill Josephine if he can. 
+
+Ultimately, Edgar's goal is to find and rescue Emily. She is being kept on the lowest level, under the tightest security and he will focus entirely on rescuing her and destroying the entire facility. The existence of this research puts every one of the Lost as a whole at risk and he will do everything he can to raze the entire structure to the ground and destroy any and all information in Neohominis' databases. 
+
+\subsection{ Aftermath }
+
+If Emily is rescued and the players participated directly in her release, Edgar will be enormously grateful. He will offer no explanations but will make an offer of future help if ever the players need an extra set of eyes and ears. If they attempt to follow or track him and are successful in finding the Lost in the canyons above Bonita Beach, they will shift camp and disappear; likely leaving Gemelos city altogether
+
+If the players are killed in the attack, Neohominis will tidy up and continue as before. If Edgar is captured (an unlikely outcome), he will then serve as \emph{Subject 102} in Neohominis' next-gen pharmaceutical development research program. 
+
+If Neohominis is exposed for their various appalling ethical and regulatory violations, then Josephine will be blamed for everything. She will be arrested but will likely escape, vowing revenge against everyone who foiled her plans (including the entire Saks-Lackerby family). She is a very capable adversary and may attempt to hunt the players as part of the effort. 
+
+If the laboratory is destroyed and the players are implicated, the full force of Neohominis' legal department and political power will be centered on capturing and punishing the players' characters. They may find themselves having to run from the law potentially leading to some interesting plotlines where their secret identities become far more important. 
+
+\begin{boxtext}
+\section{Possible Crossover with `Agony and Ecstasy'}
+Cats Make Good Company can be played as a follow-on adventure to 'Agony and Ecstasy' in Gemelos City - the superheroes might well ask themselves ``Where did that Pain Virus thing come from?".      
+
+In ``Agony and Ecstasy'', the pain virus was the experimental virus that caused horrifying injuries and wreaked uncontrolled havoc in the biology of the people it infected. In the `Lost Lab' scene, there was nothing left of the whereabouts of the researchers and lab techs performing unethical trials for bioactive substances on human subjects in the underground of Brigadier Bay.  
+
+In this adventure, the core of the action centers on rogue pharmaceuticals so that Neohominis could well be the organization behind the pain virus, and that the virus' source would also be Subject 101. This would tie into the Lost's powers if not controlled sufficiently and would be a great bridge into this adventure.   
+\end{boxtext}
+
+\section{Non Player Characters}
+
+\subsection{The Lost}
+
+\subsubsection{Edgar}
+
+\begin{quote}
+\emph{``Cats make good company for people. You feed us and play with us. We purr when you stroke our soft fur and cuddle up with you in the warmth of home. But out here, in the night. We are the catchers and killers, our dark hearts focused on the hunt, our eyes focused on the kill.''}
+\end{quote}
+Edgar usually appears as a young African American kid, about 13 years old, dressed in baggy jeans and a hoodie. Edgar escaped slavery in the Deep South along the Underground Railroad, and was an early volunteer for the Union Army in the Civil War. He served as a fifer for the  54\textsuperscript{th} Massachusetts Infantry Regiment (the unit depicted in the movie 'Glory') and died in the assault of Fort Wagner in 1863. His courage was witnessed by Sarah, an Ancient Lost, who placed his soul into a feral black cat. He has been her faithful soldier ever since, following her orders ruthlessly but always with a strong personal sense of honor with deference to military courage and a traditional sense of gallantry.  
+
+Edgar is a phenomenal assassin. His powers and skills are such that he rarely leaves any trace. Primarily, he is a hunter of child abusers and murderers. He has been known to leave targets to die in agony over a period of days as a form of retribution, staging the hit as `natural causes'. Unbeknownst to him, this pattern of strange, unexplainable deaths of Very Bad People has been noticed by both federal law enforcers and Babel, the leader of the shadows.
+
+\vspace{12pt}
+
+\noindent\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Edgar - Journeyman Lost Assassin}}
+\end{tabularx}
+\rowcolors{1}{}{lightgray}
+\begin{tabularx}{\linewidth}{XXX}
+STR: 15 & Action Points & 3 \\
+CON: 16 & Damage Modifier & +1d6 \\
+SIZ: 21 [looks: 8] & Magic Points & 14 \\
+DEX: 16 & Movement & 8m \\
+INT: 14 & Initiative Bonus & 11 \\
+POW: 14 & Armor & Skin + Fur (2 points) \\
+CHA: 12 & Lost Abilities & Shift 70\%; Grok 80\% \\
+\end{tabularx}
+\begin{tabularx}{\linewidth}{XXX}
+Lost Powers: Internal biomagic (Anaesthesia, Healing, Secrete Bioweapons, Counter Biomagic), Mimic, Transform (Skin, Senses, Claws, Head), Manipulate Materials I, Evolve I, Spawn III, External Biomagic (Healing), Accrete Biomass. 
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location (Biped)}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-3 & Right Leg & 0/7 \\
+4-6 & Left Leg & 0/7 \\
+7-9 & Abdomen & 0/8 \\
+10-12 & Chest & 0/9 \\
+13-15 & Right Arm & 0/6 \\
+16-18 & Left Arm & 0/6 \\
+19-20 & Head & 0/7 
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location (Quadroped)}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-2 & Right Hind Leg & 2/7 \\
+3-4 & Left Hind Leg & 2/7 \\
+5-7 & Hindquarters & 2/8 \\
+8-10 & Forequarters & 2/9 \\
+11-13 & Right Front Leg & 2/6 \\
+14-16 & Left Front Leg & 2/6 \\
+17-20 & Head & 2/7 
+\end{tabularx}
+
+\rowcolors{1}{}{}
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Skills}} \\
+Athletics 44\%, Brawn 46\%, Endurance 62\%, Evade 42\%, Locale 52\%, Perception 62\%, Survival 67\%, Willpower 52\%\\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Passions}} \\
+Honor in Battle 88\%, Protect the Lost 80\%, Protect Children and punish their tormentors 80\% \\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Combat Styles \& Weapons}} \\
+Werecat Hitman (Rifles, Handguns, Grapple, Claw, Bite) 95\%
+\end{tabularx}
+
+\rowcolors{1}{lightgray}{}
+\begin{tabularx}{\linewidth}{XXXXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Weapon}} & \textcolor{white}{\textbf{Size/Force}} & \textcolor{white}{\textbf{Reach}} & \textcolor{white}{\textbf{Damage}} & \textcolor{white}{\textbf{AP/HP}} \\
+Club & M & S & 1d6+1d2 & 4/4
+\end{tabularx}
+
+\subsubsection{Emily ('Em')}
+
+Emily is a lost child reconstituted from use of her Rebirth power after she was caught in an explosion about three years ago. She and Edgar were investigating a gang of drug traffickers who were using children as couriers and a meth lab explosion almost killed her. As the blast ripped her human body apart, she spawned a tiny kitten that was hurled, unharmed, into a grove of trees where she lived as a feral cat for a month before being captured by the city pound and then sold to Neohominis as a laboratory animal. Emerging from Rebirth is very disorienting and challenging when performed away from an Elder capable of helping with the transition. What Emily has undergone has been extraordinarily traumatizing and she is on the verge of cracking - she has fallen into a cataconic depression and may slip into her shadow self if she cannot escape. 
+
+If she is not rescued within 2 weeks of game time, she will undergo a full-fledged mental breakdown and transform into a feral shadow - a murderous predator playing with her victims for sport and killing without mercy.  
+
+%\lipsum[1]
+
+\vspace{12pt}
+
+\noindent\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Emily - Captured Lost Cat Scout}}
+\end{tabularx}
+\rowcolors{1}{}{lightgray}
+\begin{tabularx}{\linewidth}{XXX}
+STR: 12 & Action Points & 3 \\
+CON: 16 & Damage Modifer & - \\
+SIZ: 7 & Magic Points & 12 \\
+DEX: 16 & Movement & 8m \\
+INT: 14 & Initiative Bonus & 11 \\
+POW: 12 & Armor & None \\
+CHA: 9 & Lost Abilities & Shift 48\%; Grok 58\% \\
+\end{tabularx}
+\begin{tabularx}{\linewidth}{XXX}
+Lost Powers: Internal biomagic (Anaesthesia, Healing, Counter biomagic, Augment DEX), Mimic, Transform (Fur, Senses), Animalistic Skills (Stealth, Perception, Athletics), Manipulate Materials I, Evolve I, Spawn II. 
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-3 & Right Leg & 1/7 \\
+4-6 & Left Leg & 1/7 \\
+7-9 & Abdomen & 1/8 \\
+10-12 & Chest & 1/9 \\
+13-15 & Right Arm & 1/6 \\
+16-18 & Left Arm & 1/6 \\
+19-20 & Head & 1/7 
+\end{tabularx}
+
+\rowcolors{1}{}{}
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Skills}} \\
+Athletics 44\%, Brawn 46\%, Endurance 62\%, Evade 42\%, Locale 52\%, Perception 62\%, Survival 67\%, Unarmed 54\%, Willpower 52\%\\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Passions}} \\
+Hate Humanity 75\%, Self Preservation 80\% \\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Combat Styles \& Weapons}} \\
+Hybrid Ravager (Spear, Club, Shield) 64\%
+\end{tabularx}
+
+\rowcolors{1}{lightgray}{}
+\begin{tabularx}{\linewidth}{XXXXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Weapon}} & \textcolor{white}{\textbf{Size/Force}} & \textcolor{white}{\textbf{Reach}} & \textcolor{white}{\textbf{Damage}} & \textcolor{white}{\textbf{AP/HP}} \\
+Club & M & S & 1d6+1d2 & 4/4
+\end{tabularx}
+
+\subsection{Adversaries - Drug Dealers in Gemelos City Suburbs}
+
+\subsubsection{Roman}
+
+\begin{quote}
+\emph{``You are going to regret this. You and your crew are going to suddenly understand the meaning of pain sometime real soon.''}
+\end{quote}
+
+\vspace{-12pt}
+
+Roman struts. Whereever he walks, he has an affected spring in his step that he thinks speaks to his power and his confidence. Even though it looks a little ridiculous, it still has its desired effect of being terrifying. Any man that desperate to demonstrate his strength, is likely to explode into violence at a moments notice if challenged. Roman is a 27-year old high-school drop-out with good business sense, a cutthroat approach to problem solving, and good local knowledge of the Gemelos Heartland - he grew up there. 
+
+\noindent\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Roman Davis - Drug Dealer}}
+\end{tabularx}
+\rowcolors{1}{}{lightgray}
+\begin{tabularx}{\linewidth}{XXX}
+STR: 2d6+6(13) & Action Points & 2 \\
+CON: 1d6+12(16) & Damage Modifer & +1d2 \\
+SIZ: 2d6+6(13) & Magic Points & 11 \\
+DEX: 3d6(11) & Movement & 8m \\
+INT: 3d6(11) & Initiative Bonus & 11 \\
+POW: 3d6(11) & Armor & Tough Hide \\
+CHA: 2d6(7) & Abilities & Chaos Tainted, Disease Immunity \\
+    & Magic & Folk Magic 48\%; Specialists have either devotion 58\% \& Exhort 58\% or Binding 58\% \& Trance 57\%
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-3 & Right Leg & 1/7 \\
+4-6 & Left Leg & 1/7 \\
+7-9 & Abdomen & 1/8 \\
+10-12 & Chest & 1/9 \\
+13-15 & Right Arm & 1/6 \\
+16-18 & Left Arm & 1/6 \\
+19-20 & Head & 1/7 
+\end{tabularx}
+
+\rowcolors{1}{}{}
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Skills}} \\
+Athletics 44\%, Brawn 46\%, Endurance 62\%, Evade 42\%, Locale 52\%, Perception 62\%, Survival 67\%, Unarmed 54\%, Willpower 52\%\\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Passions}} \\
+Love Chaos 88\%, Hate Everyone 80\% \\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Combat Styles \& Weapons}} \\
+Hybrid Ravager (Spear, Club, Shield) 64\%
+\end{tabularx}
+
+\rowcolors{1}{lightgray}{}
+\begin{tabularx}{\linewidth}{XXXXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Weapon}} & \textcolor{white}{\textbf{Size/Force}} & \textcolor{white}{\textbf{Reach}} & \textcolor{white}{\textbf{Damage}} & \textcolor{white}{\textbf{AP/HP}} \\
+Club & M & S & 1d6+1d2 & 4/4
+\end{tabularx}
+
+\subsubsection{Roman's Muscle - Maurice + Chaz}
+
+\lipsum[1]
+
+\vspace{12pt}
+
+\noindent\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Roman's Muscle - Maurice + Chaz }}
+\end{tabularx}
+\rowcolors{1}{}{lightgray}
+\begin{tabularx}{\linewidth}{XXX}
+STR: 2d6+6(13) & Action Points & 2 \\
+CON: 1d6+12(16) & Damage Modifer & +1d2 \\
+SIZ: 2d6+6(13) & Magic Points & 11 \\
+DEX: 3d6(11) & Movement & 8m \\
+INT: 3d6(11) & Initiative Bonus & 11 \\
+POW: 3d6(11) & Armor & Tough Hide \\
+CHA: 2d6(7) & Abilities & Chaos Tainted, Disease Immunity \\
+    & Magic & Folk Magic 48\%; Specialists have either devotion 58\% \& Exhort 58\% or Binding 58\% \& Trance 57\%
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-3 & Right Leg & 1/7 \\
+4-6 & Left Leg & 1/7 \\
+7-9 & Abdomen & 1/8 \\
+10-12 & Chest & 1/9 \\
+13-15 & Right Arm & 1/6 \\
+16-18 & Left Arm & 1/6 \\
+19-20 & Head & 1/7 
+\end{tabularx}
+
+\rowcolors{1}{}{}
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Skills}} \\
+Athletics 44\%, Brawn 46\%, Endurance 62\%, Evade 42\%, Locale 52\%, Perception 62\%, Survival 67\%, Unarmed 54\%, Willpower 52\%\\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Passions}} \\
+Love Chaos 88\%, Hate Everyone 80\% \\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Combat Styles \& Weapons}} \\
+Hybrid Ravager (Spear, Club, Shield) 64\%
+\end{tabularx}
+
+\rowcolors{1}{lightgray}{}
+\begin{tabularx}{\linewidth}{XXXXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Weapon}} & \textcolor{white}{\textbf{Size/Force}} & \textcolor{white}{\textbf{Reach}} & \textcolor{white}{\textbf{Damage}} & \textcolor{white}{\textbf{AP/HP}} \\
+Club & M & S & 1d6+1d2 & 4/4
+\end{tabularx}
+
+\subsection{Adversaries - Neohominis}
+
+\subsubsection{Dr. Josephine  Delphi}
+
+Dr. Delphi is a scientific genius in the areas of human genetics, molecular biology, physiology, and pharmacology. In particular, she is likely one of the world's foremost experts on mystery of the Godstrand's mechanisms within the biology of superhumans. She is also a high-functioning narcissistic sociopath with no scruples, morals, or compassion. She is driven by an unremitting drive for power that masquerades as a hunger for knowledge and excellence. To her, people are experimental subjects to further her goals. Research requires funding and so she voraciously pursues wealth to further her work - this has lead her to schmooze the Saks-Lackerby family for money, drive a horrifying research program involving every kind of human subjects ethics violation imaginable, and then enthusiastically develop an illegal drug trafficking side-business to drive her funding portfolio. 
+
+In another life, she could have been a Nobel contender and she likely still considers that to be a possibility, given her narcissistic tendencies. As a supervillain, she is hyper-intelligent, manipulative, convincing, charismatic, cruel, extremely cunning, and utterly ruthless. 
+
+\vspace{12pt}
+
+\noindent\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Dr. Josephine  Delphi}}
+\end{tabularx}
+
+\rowcolors{1}{}{lightgray}
+\begin{tabularx}{\linewidth}{XXX}
+STR: 11 & Action Points & 3 \\
+CON: 14 & Damage Modifer & - \\
+SIZ: 12 & Magic Points & 17 \\
+DEX: 15 & Movement & 8m \\
+INT: 19 & Initiative Bonus & 11 \\
+POW: 17 & Armor & None \\
+CHA: 16 & Abilities & Use of Grok drug conveys weakened 'Lost' powers  \\
+    & Lost Powers & Shift 15\%; Grok 17\%
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-3 & Right Leg & 1/7 \\
+4-6 & Left Leg & 1/7 \\
+7-9 & Abdomen & 1/8 \\
+10-12 & Chest & 1/9 \\
+13-15 & Right Arm & 1/6 \\
+16-18 & Left Arm & 1/6 \\
+19-20 & Head & 1/7 
+\end{tabularx}
+
+\rowcolors{1}{}{}
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Skills}} \\
+Athletics 44\%, Brawn 46\%, Endurance 62\%, Evade 42\%, Locale 52\%, Perception 62\%, Survival 67\%, Unarmed 54\%, Willpower 52\%\\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Passions}} \\
+Lust for Power 95\%, Exact Revenge for Transgressions against her 80\% \\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Combat Styles \& Weapons}} \\
+Hybrid Ravager (Spear, Club, Shield) 64\%
+\end{tabularx}
+
+\rowcolors{1}{lightgray}{}
+\begin{tabularx}{\linewidth}{XXXXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Weapon}} & \textcolor{white}{\textbf{Size/Force}} & \textcolor{white}{\textbf{Reach}} & \textcolor{white}{\textbf{Damage}} & \textcolor{white}{\textbf{AP/HP}} \\
+Club & M & S & 1d6+1d2 & 4/4
+\end{tabularx}
+
+\subsubsection{Neohominis Security Guard}
+
+\lipsum[1]
+
+\vspace{12pt}
+
+\noindent\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Neohominis Security Guard}}
+\end{tabularx}
+
+\rowcolors{1}{}{lightgray}
+\begin{tabularx}{\linewidth}{XXX}
+STR: 2d6+6(13) & Action Points & 2 \\
+CON: 1d6+12(16) & Damage Modifer & +1d2 \\
+SIZ: 2d6+6(13) & Magic Points & 11 \\
+DEX: 3d6(11) & Movement & 8m \\
+INT: 3d6(11) & Initiative Bonus & 11 \\
+POW: 3d6(11) & Armor & Tough Hide \\
+CHA: 2d6(7) & Abilities & Chaos Tainted, Disease Immunity \\
+    & Magic & Folk Magic 48\%; Specialists have either devotion 58\% \& Exhort 58\% or Binding 58\% \& Trance 57\%
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-3 & Right Leg & 1/7 \\
+4-6 & Left Leg & 1/7 \\
+7-9 & Abdomen & 1/8 \\
+10-12 & Chest & 1/9 \\
+13-15 & Right Arm & 1/6 \\
+16-18 & Left Arm & 1/6 \\
+19-20 & Head & 1/7 
+\end{tabularx}
+
+\rowcolors{1}{}{}
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Skills}} \\
+Athletics 44\%, Brawn 46\%, Endurance 62\%, Evade 42\%, Locale 52\%, Perception 62\%, Survival 67\%, Unarmed 54\%, Willpower 52\%\\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Passions}} \\
+Love Chaos 88\%, Hate Everyone 80\% \\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Combat Styles \& Weapons}} \\
+Hybrid Ravager (Spear, Club, Shield) 64\%
+\end{tabularx}
+
+\rowcolors{1}{lightgray}{}
+\begin{tabularx}{\linewidth}{XXXXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Weapon}} & \textcolor{white}{\textbf{Size/Force}} & \textcolor{white}{\textbf{Reach}} & \textcolor{white}{\textbf{Damage}} & \textcolor{white}{\textbf{AP/HP}} \\
+Club & M & S & 1d6+1d2 & 4/4
+\end{tabularx}
+
+\subsubsection{Neohominis Super-Soldier}
+
+\lipsum[1]
+
+\vspace{12pt}
+
+\noindent\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Neohominis Super-Soldier}}
+\end{tabularx}
+
+\rowcolors{1}{}{lightgray}
+\begin{tabularx}{\linewidth}{XXX}
+STR: 2d6+6(13) & Action Points & 2 \\
+CON: 1d6+12(16) & Damage Modifer & +1d2 \\
+SIZ: 2d6+6(13) & Magic Points & 11 \\
+DEX: 3d6(11) & Movement & 8m \\
+INT: 3d6(11) & Initiative Bonus & 11 \\
+POW: 3d6(11) & Armor & Tough Hide \\
+CHA: 2d6(7) & Abilities & Chaos Tainted, Disease Immunity \\
+    & Magic & Folk Magic 48\%; Specialists have either devotion 58\% \& Exhort 58\% or Binding 58\% \& Trance 57\%
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-3 & Right Leg & 1/7 \\
+4-6 & Left Leg & 1/7 \\
+7-9 & Abdomen & 1/8 \\
+10-12 & Chest & 1/9 \\
+13-15 & Right Arm & 1/6 \\
+16-18 & Left Arm & 1/6 \\
+19-20 & Head & 1/7 
+\end{tabularx}
+
+\rowcolors{1}{}{}
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Skills}} \\
+Athletics 44\%, Brawn 46\%, Endurance 62\%, Evade 42\%, Locale 52\%, Perception 62\%, Survival 67\%, Unarmed 54\%, Willpower 52\%\\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Passions}} \\
+Love Chaos 88\%, Hate Everyone 80\% \\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Combat Styles \& Weapons}} \\
+Hybrid Ravager (Spear, Club, Shield) 64\%
+\end{tabularx}
+
+\rowcolors{1}{lightgray}{}
+\begin{tabularx}{\linewidth}{XXXXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Weapon}} & \textcolor{white}{\textbf{Size/Force}} & \textcolor{white}{\textbf{Reach}} & \textcolor{white}{\textbf{Damage}} & \textcolor{white}{\textbf{AP/HP}} \\
+Club & M & S & 1d6+1d2 & 4/4
+\end{tabularx}
+
+\subsubsection{Neohominis Monster}
+
+\lipsum[1]
+
+\vspace{12pt}
+
+\noindent\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Neohominis Monster}}
+\end{tabularx}
+\rowcolors{1}{}{lightgray}
+\begin{tabularx}{\linewidth}{XXX}
+STR: 2d6+6(13) & Action Points & 2 \\
+CON: 1d6+12(16) & Damage Modifer & +1d2 \\
+SIZ: 2d6+6(13) & Magic Points & 11 \\
+DEX: 3d6(11) & Movement & 8m \\
+INT: 3d6(11) & Initiative Bonus & 11 \\
+POW: 3d6(11) & Armor & Tough Hide \\
+CHA: 2d6(7) & Abilities & Chaos Tainted, Disease Immunity \\
+    & Magic & Folk Magic 48\%; Specialists have either devotion 58\% \& Exhort 58\% or Binding 58\% \& Trance 57\%
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{XXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{1d20}} & \textcolor{white}{\textbf{Location}} & \textcolor{white}{\textbf{AP/HP}} \\
+1-3 & Right Leg & 1/7 \\
+4-6 & Left Leg & 1/7 \\
+7-9 & Abdomen & 1/8 \\
+10-12 & Chest & 1/9 \\
+13-15 & Right Arm & 1/6 \\
+16-18 & Left Arm & 1/6 \\
+19-20 & Head & 1/7 
+\end{tabularx}
+
+\rowcolors{1}{}{}
+\begin{tabularx}{\linewidth}{X}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Skills}} \\
+Athletics 44\%, Brawn 46\%, Endurance 62\%, Evade 42\%, Locale 52\%, Perception 62\%, Survival 67\%, Unarmed 54\%, Willpower 52\%\\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Passions}} \\
+Love Chaos 88\%, Hate Everyone 80\% \\
+\rowcolor{gray}
+\textcolor{white}{\textbf{Combat Styles \& Weapons}} \\
+Hybrid Ravager (Spear, Club, Shield) 64\%
+\end{tabularx}
+
+\rowcolors{1}{lightgray}{}
+\begin{tabularx}{\linewidth}{XXXXX}
+\rowcolor{gray}
+\textcolor{white}{\textbf{Weapon}} & \textcolor{white}{\textbf{Size/Force}} & \textcolor{white}{\textbf{Reach}} & \textcolor{white}{\textbf{Damage}} & \textcolor{white}{\textbf{AP/HP}} \\
+Club & M & S & 1d6+1d2 & 4/4
+\end{tabularx}
+
+\section{Maps and Situations}
+
+\section{Additional Notes}
+
+\pagebreak
+
+\newpage
+
+%
+% Table of Contents
+%
+
+\tableofcontents
+
+% If you would also like to include an index for your document, see the LaTeX makeidx package
+
+\end{document}
